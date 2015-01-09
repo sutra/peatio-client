@@ -45,9 +45,9 @@ public final class PeatioAdapters {
 
 	public static CurrencyPair adaptCurrencyPair(String marketId) {
 		int l = marketId.length();
-		String counterSymbol = marketId.substring(l - 4, l - 1);
-		String baseSymbol = marketId.substring(0, l - 4);
-		return new CurrencyPair(baseSymbol, counterSymbol);
+		String counterSymbol = marketId.substring(l - 3, l);
+		String baseSymbol = marketId.substring(0, l - 3);
+		return new CurrencyPair(baseSymbol.toUpperCase(), counterSymbol.toUpperCase());
 	}
 
 	public static String adaptMarketId(CurrencyPair currencyPair) {
