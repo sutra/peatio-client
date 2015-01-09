@@ -48,7 +48,7 @@ public class Order extends BaseObject {
 			@JsonProperty("created_at")
 			@JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ssXXX") Date createdAt,
 			@JsonProperty("volume") BigDecimal volume,
-			@JsonProperty("remaing_volume") BigDecimal remaingVolume,
+			@JsonProperty("remaining_volume") BigDecimal remainingVolume,
 			@JsonProperty("executed_volume") BigDecimal executedVolume) {
 		this.id = id;
 		this.side = side;
@@ -59,7 +59,7 @@ public class Order extends BaseObject {
 		this.market = market;
 		this.createdAt = createdAt;
 		this.volume = volume;
-		this.remainingVolume = remaingVolume;
+		this.remainingVolume = remainingVolume;
 		this.executedVolume = executedVolume;
 	}
 
