@@ -8,6 +8,9 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.service.polling.BasePollingService;
 import com.xeiam.xchange.utils.Assert;
 
+/**
+ * Base private service. Provides {@link SynchronizedValueFactory} and {@link PeatioDigest} for subclasses.
+ */
 public class PeatioBasePrivatePollingService extends PeatioBasePollingService
 		implements BasePollingService {
 

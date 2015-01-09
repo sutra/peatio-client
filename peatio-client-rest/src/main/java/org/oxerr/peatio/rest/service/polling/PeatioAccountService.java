@@ -14,6 +14,9 @@ import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.service.polling.PollingAccountService;
 
+/**
+ * Account service.
+ */
 public class PeatioAccountService extends PeatioAccountServiceRaw implements
 		PollingAccountService {
 

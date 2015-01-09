@@ -15,11 +15,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import si.mazi.rescu.Params;
+import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestInvocation;
 
 import com.xeiam.xchange.service.BaseParamsDigest;
 import com.xeiam.xchange.utils.DigestUtils;
 
+/**
+ * {@link ParamsDigest} implementation for Peatio.
+ */
 public class PeatioDigest extends BaseParamsDigest {
 
 	private final Logger log = LoggerFactory.getLogger(PeatioDigest.class);

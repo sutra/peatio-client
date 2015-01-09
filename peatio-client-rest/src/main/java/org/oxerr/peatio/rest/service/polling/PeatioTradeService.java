@@ -15,6 +15,9 @@ import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.service.polling.PollingTradeService;
 import com.xeiam.xchange.service.polling.trade.TradeHistoryParams;
 
+/**
+ * Trade service.
+ */
 public class PeatioTradeService extends PeatioTradeServiceRaw implements
 		PollingTradeService {
 

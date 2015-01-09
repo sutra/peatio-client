@@ -34,7 +34,7 @@ public class Order extends BaseObject {
 	 * @param market which market the order belongs to.
 	 * @param createdAt order created time.
 	 * @param volume volume to buy/sell.
-	 * @param remaingVolume remaining volume is always less than or equal to volume.
+	 * @param remainingVolume remaining volume is always less than or equal to volume.
 	 * @param executedVolume volume = remaingVolume + executedVolume.
 	 */
 	public Order(

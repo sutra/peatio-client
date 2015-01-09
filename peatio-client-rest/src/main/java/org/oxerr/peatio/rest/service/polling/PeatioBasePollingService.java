@@ -16,6 +16,9 @@ import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.BasePollingService;
 import com.xeiam.xchange.utils.Assert;
 
+/**
+ * Base service. Provides {@link Peatio} instance for subclasses.
+ */
 public class PeatioBasePollingService extends BaseExchangeService implements
 		BasePollingService {
 
