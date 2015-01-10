@@ -15,7 +15,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class OrderBookTest {
 
-	private ObjectMapper mapper = new ObjectMapper();
+	private final ObjectMapper mapper = new ObjectMapper();
 
 	@Test
 	public void test() throws JsonParseException, JsonMappingException, IOException {

@@ -1,8 +1,10 @@
 package org.oxerr.peatio.examples.rest;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import org.oxerr.peatio.rest.PeatioExchange;
+import org.oxerr.peatio.rest.dto.Deposit;
 import org.oxerr.peatio.rest.dto.Member;
 import org.oxerr.peatio.rest.service.polling.PeatioAccountServiceRaw;
 import org.slf4j.Logger;
@@ -38,10 +40,14 @@ public class PeatioAccountServiceExample {
 		log.info("account info: {}", accountInfo);
 
 		// Get your deposits information.
-		accountServiceRaw.getDeposits(null);
+		Deposit[] deposits = accountServiceRaw.getDeposits(null);
+		log.info("deposits: {}", Arrays.toString(deposits));
 
-		// Get single deposit information.
-		accountServiceRaw.getDeposit("test");
+		for (Deposit deposit : deposits) {
+			// Get single deposit information.
+			Deposit d = accountServiceRaw.getDeposit(deposit.getTxid());
+			log.info("deposit: {}", d);
+		}
 	}
 
 }

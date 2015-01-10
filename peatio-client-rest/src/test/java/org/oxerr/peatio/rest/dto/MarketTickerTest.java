@@ -12,7 +12,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class MarketTickerTest {
 
-	private ObjectMapper mapper = new ObjectMapper();
+	private final ObjectMapper mapper = new ObjectMapper();
 
 	@Test
 	public void testTickerObject() throws JsonParseException, JsonMappingException, IOException {

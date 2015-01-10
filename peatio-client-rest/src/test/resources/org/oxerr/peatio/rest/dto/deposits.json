@@ -1,0 +1,10 @@
+[{
+	"currency": "btc",
+	"amount": "1.0",
+	"fee": "0.0",
+	"txid": "39232cf36f8fc5cf4eca45289be32b899910ce8ed6522ab37c40ba5458c51445",
+	"created_at": "2015-01-11T02:50:59+08:00",
+	"confirmations": "1",
+	"done_at": null,
+	"state": "accepted"
+}]
