@@ -3,13 +3,16 @@ package org.oxerr.peatio.rest.service.polling;
 import static org.oxerr.peatio.rest.PeatioAdapters.adaptMarketId;
 import static org.oxerr.peatio.rest.PeatioAdapters.adaptOpenOrders;
 import static org.oxerr.peatio.rest.PeatioAdapters.adaptSide;
+import static org.oxerr.peatio.rest.PeatioAdapters.adaptUserTrades;
 
 import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.oxerr.peatio.rest.PeatioAdapters;
 import org.oxerr.peatio.rest.dto.Market;
 import org.oxerr.peatio.rest.dto.Order;
+import org.oxerr.peatio.rest.dto.Trade;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,6 +28,7 @@ import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.service.polling.PollingTradeService;
 import com.xeiam.xchange.service.polling.trade.TradeHistoryParams;
+import com.xeiam.xchange.service.polling.trade.TradeHistoryParamsAll;
 
 /**
  * Trade service.
@@ -106,7 +110,15 @@ public class PeatioTradeService extends PeatioTradeServiceRaw implements
 	public UserTrades getTradeHistory(Object... arguments)
 			throws ExchangeException, NotAvailableFromExchangeException,
 			NotYetImplementedForExchangeException, IOException {
-		throw new NotYetImplementedForExchangeException();
+		Market[] markets = getMarkets();
+		Map<Market, Trade[]> ordersMap = new LinkedHashMap<>(markets.length);
+		for (Market market : markets) {
+			Trade[] trades = getMyTrades(market.getId(), null, null, null, null, null);
+			ordersMap.put(market, trades);
+		}
+		return adaptUserTrades(ordersMap);
+
+
 	}
 
 	/**
@@ -116,7 +128,15 @@ public class PeatioTradeService extends PeatioTradeServiceRaw implements
 	public UserTrades getTradeHistory(TradeHistoryParams params)
 			throws ExchangeException, NotAvailableFromExchangeException,
 			NotYetImplementedForExchangeException, IOException {
-		throw new NotYetImplementedForExchangeException();
+		PeatioTradeHistoryParams p = (PeatioTradeHistoryParams) params;
+		String market = PeatioAdapters.adaptMarketId(p.getCurrencyPair());
+		Integer limit = p.getPageLength();
+		Long timestamp = p.getEndTime() == null ? null : p.getEndTime().getTime();
+		Long from = p.getStartId() == null ? null : new Long(p.getStartId());
+		Long to = p.getEndId() == null ? null : new Long(p.getEndId());
+		String orderBy = p.getOrderBy();
+		return adaptUserTrades(p.getCurrencyPair(),
+				getMyTrades(market, limit, timestamp, from, to, orderBy));
 	}
 
 	/**
@@ -124,7 +144,21 @@ public class PeatioTradeService extends PeatioTradeServiceRaw implements
 	 */
 	@Override
 	public TradeHistoryParams createTradeHistoryParams() {
-		return null;
+		return new TradeHistoryParamsAll();
+	}
+
+	public class PeatioTradeHistoryParams extends TradeHistoryParamsAll {
+
+		private String orderBy;
+
+		public String getOrderBy() {
+			return orderBy;
+		}
+
+		public void setOrderBy(String orderBy) {
+			this.orderBy = orderBy;
+		}
+
 	}
 
 }

@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 
 import org.oxerr.peatio.rest.PeatioException;
 import org.oxerr.peatio.rest.dto.Order;
+import org.oxerr.peatio.rest.dto.Trade;
 
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -44,6 +45,13 @@ public class PeatioTradeServiceRaw extends PeatioBasePrivatePollingService {
 
 	public Order deleteOrder(long id) throws PeatioException, IOException {
 		return peatio.deleteOrder(accessKey, tonce, signature, id);
+	}
+
+	public Trade[] getMyTrades(String market, Integer limit, Long timestamp,
+			Long from, Long to, String orderBy) throws PeatioException,
+			IOException {
+		return peatio.getMyTrades(accessKey, tonce, signature, market, limit,
+				timestamp, from, to, orderBy);
 	}
 
 }

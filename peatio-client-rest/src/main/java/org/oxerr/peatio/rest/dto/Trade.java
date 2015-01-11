@@ -15,6 +15,7 @@ public class Trade extends BaseObject {
 	private final String market;
 	private final Date createdAt;
 	private final String side;
+	private final Long orderId;
 
 	/**
 	 *
@@ -34,7 +35,8 @@ public class Trade extends BaseObject {
 			@JsonProperty("market") String market,
 			@JsonProperty("created_at")
 			@JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ssXXX") Date createdAt,
-			@JsonProperty("side") String side) {
+			@JsonProperty("side") String side,
+			@JsonProperty("order_id") Long orderId) {
 		this.id = id;
 		this.price = price;
 		this.volume = volume;
@@ -42,6 +44,7 @@ public class Trade extends BaseObject {
 		this.market = market;
 		this.createdAt = createdAt;
 		this.side = side;
+		this.orderId = orderId;
 	}
 
 	public long getId() {
@@ -70,6 +73,10 @@ public class Trade extends BaseObject {
 
 	public String getSide() {
 		return side;
+	}
+
+	public Long getOrderId() {
+		return orderId;
 	}
 
 }

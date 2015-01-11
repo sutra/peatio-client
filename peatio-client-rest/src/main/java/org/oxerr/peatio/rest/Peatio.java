@@ -405,8 +405,8 @@ public interface Peatio {
 			@QueryParam("market") String market,
 			@QueryParam("limit") Integer limit,
 			@QueryParam("timestamp") Long timestamp,
-			@QueryParam("from") Integer from,
-			@QueryParam("to") Integer to,
+			@QueryParam("from") Long from,
+			@QueryParam("to") Long to,
 			@QueryParam("order_by") String orderBy)
 					throws IOException, PeatioException;
 

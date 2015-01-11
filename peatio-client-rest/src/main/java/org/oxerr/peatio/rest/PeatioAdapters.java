@@ -23,6 +23,8 @@ import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
+import com.xeiam.xchange.dto.trade.UserTrade;
+import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.dto.trade.Wallet;
 
 /**
@@ -104,7 +106,18 @@ public final class PeatioAdapters {
 			return null;
 		}
 
-		return side.equals("sell") ? OrderType.ASK : OrderType.BID;
+		OrderType orderType;
+		switch (side) {
+		case "ask":
+			orderType = OrderType.ASK;
+			break;
+		case "bid":
+			orderType = OrderType.BID;
+			break;
+		default:
+			throw new IllegalArgumentException("Unknow order side: " + side);
+		}
+		return orderType;
 	}
 
 	public static String adaptSide(OrderType orderType) {
@@ -146,6 +159,51 @@ public final class PeatioAdapters {
 				.flatMap(x -> x.stream())
 				.collect(toList());
 		return new OpenOrders(openOrders);
+	}
+
+	public static UserTrade adaptUserTrade(CurrencyPair currencyPair,
+			org.oxerr.peatio.rest.dto.Trade trade) {
+		return new UserTrade.Builder()
+			.id(String.valueOf(trade.getId()))
+			.price(trade.getPrice())
+			.tradableAmount(trade.getVolume())
+			.currencyPair(currencyPair)
+			.timestamp(trade.getCreatedAt())
+			.type(adaptOrderType(trade.getSide()))
+			.orderId(String.valueOf(trade.getOrderId()))
+			.build();
+	}
+
+	public static List<UserTrade> adaptUserTradeList(Market market,
+			org.oxerr.peatio.rest.dto.Trade[] trade) {
+		return adaptUserTradeList(adaptCurrencyPair(market), trade);
+	}
+
+	public static List<UserTrade> adaptUserTradeList(CurrencyPair currencyPair,
+			org.oxerr.peatio.rest.dto.Trade[] trades) {
+		return Arrays.stream(trades)
+				.map(trade -> adaptUserTrade(currencyPair, trade))
+				.collect(toList());
+	}
+
+	public static UserTrades adaptUserTrades(CurrencyPair currencyPair,
+			org.oxerr.peatio.rest.dto.Trade[] trades) {
+		long lastID = trades.length > 0 ? trades[trades.length - 1].getId() : 0;
+		return new UserTrades(adaptUserTradeList(currencyPair, trades), lastID,
+				TradeSortType.SortByID);
+	}
+
+	public static UserTrades adaptUserTrades(
+			Map<Market, org.oxerr.peatio.rest.dto.Trade[]> tradesMap) {
+		List<UserTrade> trades = tradesMap
+				.entrySet()
+				.stream()
+				.map(e -> adaptUserTradeList(e.getKey(), e.getValue()))
+				.flatMap(x -> x.stream())
+				.collect(toList());
+		int size = trades.size();
+		long lastID = size > 0 ? Long.parseLong(trades.get(size - 1).getId()) : 0;
+		return new UserTrades(trades, lastID, TradeSortType.SortByID);
 	}
 
 }

@@ -7,6 +7,7 @@ import java.util.Arrays;
 import org.oxerr.peatio.rest.PeatioException;
 import org.oxerr.peatio.rest.PeatioExchange;
 import org.oxerr.peatio.rest.dto.Order;
+import org.oxerr.peatio.rest.dto.Trade;
 import org.oxerr.peatio.rest.service.polling.PeatioTradeServiceRaw;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -76,6 +77,10 @@ public class PeatioTradeServiceExample {
 			Order deletedOrder = tradeServiceRaw.deleteOrder(cancelOrderId);
 			log.info("deleted order: {}", deletedOrder);
 		}
+
+		// Get my trades.
+		Trade[] myTrades = tradeServiceRaw.getMyTrades(market, null, null, null, null, null);
+		log.info("my trades: {}", Arrays.toString(myTrades));
 	}
 
 }
