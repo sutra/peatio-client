@@ -78,6 +78,10 @@ public final class PeatioAdapters {
 
 	public static List<LimitOrder> adaptLimitOrders(Market market, Order[] orders) {
 		CurrencyPair currencyPair = adaptCurrencyPair(market);
+		return adaptLimitOrders(currencyPair, orders);
+	}
+
+	public static List<LimitOrder> adaptLimitOrders(CurrencyPair currencyPair, Order[] orders) {
 		return Arrays.stream(orders).map(order -> adaptLimitOrder(currencyPair, order)).collect(toList());
 	}
 
