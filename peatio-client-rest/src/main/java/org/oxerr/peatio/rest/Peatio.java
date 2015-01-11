@@ -142,7 +142,10 @@ public interface Peatio {
 	 * where xxx is the base currency code, yyy is the quote currency code,
 	 * e.g. 'btccny'. All available markets can be found at {@link #getMarkets()}.
 	 * @param state filter order by state, default to 'wait'(active orders).
-	 * @param limit limite the number of returned orders, default to 10.
+	 * @param limit limit the number of returned orders, default to 10.
+	 * @param page specify the page of paginated results.
+	 * @param orderBy if set, returned orders will be sorted in specific order,
+	 * default to 'asc'.
 	 * @return your orders.
 	 * @throws IOException indicates I/O exception.
 	 * @throws PeatioException indicates peatio exchange exception.
@@ -155,7 +158,9 @@ public interface Peatio {
 			@QueryParam("signature") ParamsDigest signature,
 			@QueryParam("market") String market,
 			@QueryParam("state") String state,
-			@QueryParam("limit") Integer limit)
+			@QueryParam("limit") Integer limit,
+			@QueryParam("page") Integer page,
+			@QueryParam("order_by") String orderBy)
 					throws IOException, PeatioException;
 
 	/**
@@ -178,12 +183,13 @@ public interface Peatio {
 	 * @param price price for each unit. e.g. if you want to sell/buy 1 btc at
 	 * 3000 CNY, the price is '3000.0'.
 	 * @param ordType the order type.
+	 * @return the order which created in this call.
 	 * @throws IOException indicates I/O exception.
 	 * @throws PeatioException indicates peatio exchange exception.
 	 */
 	@POST
 	@Path("orders.json")
-	void placeOrder(
+	Order placeOrder(
 			@FormParam("access_key") String accessKey,
 			@FormParam("tonce") SynchronizedValueFactory<Long> tonce,
 			@FormParam("signature") ParamsDigest signature,
@@ -215,12 +221,13 @@ public interface Peatio {
 	 * @param prices price for each unit. e.g. if you want to sell/buy 1 btc at
 	 * 3000 CNY, the price is '3000.0'.
 	 * @param ordTypes the order types.
+	 * @return the orders which created in this call.
 	 * @throws IOException indicates I/O exception.
 	 * @throws PeatioException indicates peatio exchange exception.
 	 */
 	@POST
 	@Path("orders/multi.json")
-	void placeMultiOrders(
+	Order[] placeMultiOrders(
 			@FormParam("access_key") String accessKey,
 			@FormParam("tonce") SynchronizedValueFactory<Long> tonce,
 			@FormParam("signature") ParamsDigest signature,
@@ -238,12 +245,13 @@ public interface Peatio {
 	 * @param tonce tonce is an integer represents the milliseconds elapsed
 	 * since Unix epoch.
 	 * @param signature the signature of your request payload.
+	 * @return the orders which cancelled  in this call.
 	 * @throws IOException indicates I/O exception.
 	 * @throws PeatioException indicates peatio exchange exception.
 	 */
 	@POST
 	@Path("orders/clear.json")
-	void clear(
+	Order[] clear(
 			@FormParam("access_key") String accessKey,
 			@FormParam("tonce") SynchronizedValueFactory<Long> tonce,
 			@FormParam("signature") ParamsDigest signature)
@@ -260,7 +268,7 @@ public interface Peatio {
 	 * @param id unique order id.
 	 * @return order information of specified order.
 	 * @throws IOException indicates I/O exception.
-	 * @throws PeatioException indicates peatio exchagne exception.
+	 * @throws PeatioException indicates peatio exchange exception.
 	 */
 	@GET
 	@Path("order.json")
@@ -268,7 +276,7 @@ public interface Peatio {
 			@QueryParam("access_key") String accessKey,
 			@QueryParam("tonce") SynchronizedValueFactory<Long> tonce,
 			@QueryParam("signature") ParamsDigest signature,
-			@QueryParam("id") int id)
+			@QueryParam("id") long id)
 					throws IOException, PeatioException;
 
 	/**
@@ -280,16 +288,18 @@ public interface Peatio {
 	 * @param signature the signature of your request payload, generated
 	 * using your secret key.
 	 * @param id unique order id.
+	 * @return the order has been deleted.
+	 * The order state is the value before we deleting it.
 	 * @throws IOException indicates I/O exception.
 	 * @throws PeatioException indicates peatio exchange exception.
 	 */
 	@POST
 	@Path("order/delete.json")
-	void deleteOrder(
+	Order deleteOrder(
 			@QueryParam("access_key") String accessKey,
 			@QueryParam("tonce") SynchronizedValueFactory<Long> tonce,
 			@QueryParam("signature") ParamsDigest signature,
-			@QueryParam("id") int id)
+			@QueryParam("id") long id)
 					throws IOException, PeatioException;
 
 	/**

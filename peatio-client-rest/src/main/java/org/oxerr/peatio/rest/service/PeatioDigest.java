@@ -8,6 +8,7 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 import javax.crypto.Mac;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.UriBuilder;
 
@@ -48,7 +49,7 @@ public class PeatioDigest extends BaseParamsDigest {
 	public String digestParams(RestInvocation restInvocation) {
 		final String verb = restInvocation.getHttpMethod();
 		final String uri = restInvocation.getPath();
-		final String query = getSortedQuery(restInvocation);
+		final String query = getSortedParams(restInvocation);
 
 		final String payload = String.join("|", verb, uri, query);
 		log.debug("payload: {}", payload);
@@ -72,18 +73,24 @@ public class PeatioDigest extends BaseParamsDigest {
 		return signature;
 	}
 
-	private String getSortedQuery(RestInvocation restInvocation) {
-		Map<Class<? extends Annotation>, Params> paramsMap = restInvocation.getParamsMap();
-		Params params = paramsMap.get(QueryParam.class);
-		SortedMap<String, String> queryParams = new TreeMap<>(params.asHttpHeaders());
+	private String getSortedParams(RestInvocation restInvocation) {
+		final Map<Class<? extends Annotation>, Params> paramsMap = restInvocation.getParamsMap();
+
+		final Params queryParams = paramsMap.get(QueryParam.class);
+		final Params formParams = paramsMap.get(FormParam.class);
+
+		final SortedMap<String, String> sortedQueryParams = new TreeMap<>();
+		sortedQueryParams.putAll(queryParams.asHttpHeaders());
+		sortedQueryParams.putAll(formParams.asHttpHeaders());
+
 		final Params sortedParams = Params.of();
-		for (Map.Entry<String, String> param : queryParams.entrySet()) {
+		for (Map.Entry<String, String> param : sortedQueryParams.entrySet()) {
 			if (!param.getKey().equals("signature")) {
 				sortedParams.add(param.getKey(), param.getValue());
 			}
 		}
-		final String query = sortedParams.asQueryString();
-		return query;
+
+		return sortedParams.asQueryString();
 	}
 
 }

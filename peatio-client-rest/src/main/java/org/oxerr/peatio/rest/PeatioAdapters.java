@@ -1,11 +1,13 @@
 package org.oxerr.peatio.rest;
 
-import java.util.ArrayList;
+import static java.util.stream.Collectors.toList;
+
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
-import org.oxerr.peatio.rest.dto.Account;
 import org.oxerr.peatio.rest.dto.Market;
 import org.oxerr.peatio.rest.dto.MarketTicker;
 import org.oxerr.peatio.rest.dto.Member;
@@ -20,6 +22,7 @@ import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.Wallet;
 
 /**
@@ -31,11 +34,7 @@ public final class PeatioAdapters {
 	}
 
 	public static Collection<CurrencyPair> adaptCurrencyPairs(Market[] markets) {
-		Collection<CurrencyPair> pairs = new ArrayList<CurrencyPair>(markets.length);
-		for (Market market : markets) {
-			pairs.add(adaptCurrencyPair(market));
-		}
-		return pairs;
+		return Arrays.stream(markets).map(market -> adaptCurrencyPair(market)).collect(toList());
 	}
 
 	public static CurrencyPair adaptCurrencyPair(Market market) {
@@ -74,16 +73,21 @@ public final class PeatioAdapters {
 	}
 
 	public static List<LimitOrder> adaptLimitOrders(Order[] orders) {
-		List<LimitOrder> limitOrders = new ArrayList<LimitOrder>(orders.length);
-		for (Order order : orders) {
-			limitOrders.add(adaptLimitOrder(order));
-		}
-		return limitOrders;
+		return Arrays.stream(orders).map(order -> adaptLimitOrder(order)).collect(toList());
+	}
+
+	public static List<LimitOrder> adaptLimitOrders(Market market, Order[] orders) {
+		CurrencyPair currencyPair = adaptCurrencyPair(market);
+		return Arrays.stream(orders).map(order -> adaptLimitOrder(currencyPair, order)).collect(toList());
 	}
 
 	public static LimitOrder adaptLimitOrder(Order order) {
+		return adaptLimitOrder(adaptCurrencyPair(order.getMarket()), order);
+	}
+
+	public static LimitOrder adaptLimitOrder(CurrencyPair currencyPair, Order order) {
 		return new LimitOrder.Builder(
-				adaptOrderType(order.getSide()), adaptCurrencyPair(order.getMarket()))
+				adaptOrderType(order.getSide()), currencyPair)
 			.id(String.valueOf(order.getId()))
 			.limitPrice(order.getPrice())
 			.timestamp(order.getCreatedAt())
@@ -99,12 +103,15 @@ public final class PeatioAdapters {
 		return side.equals("sell") ? OrderType.ASK : OrderType.BID;
 	}
 
-	public static Trades adaptTrades(org.oxerr.peatio.rest.dto.Trade[] tradeArray) {
-		List<Trade> tradeList = new ArrayList<Trade>(tradeArray.length);
-		for (org.oxerr.peatio.rest.dto.Trade trade : tradeArray) {
-			tradeList.add(adaptTrade(trade));
-		}
-		return new Trades(tradeList, TradeSortType.SortByID);
+	public static String adaptSide(OrderType orderType) {
+		return orderType == OrderType.ASK ? "sell" : "buy";
+	}
+
+	public static Trades adaptTrades(
+			org.oxerr.peatio.rest.dto.Trade[] tradeArray) {
+		return new Trades(Arrays.stream(tradeArray)
+				.map(trade -> adaptTrade(trade)).collect(toList()),
+				TradeSortType.SortByID);
 	}
 
 	public static Trade adaptTrade(org.oxerr.peatio.rest.dto.Trade trade) {
@@ -119,13 +126,22 @@ public final class PeatioAdapters {
 	}
 
 	public static AccountInfo adaptMember(Member member) {
-		List<Wallet> wallets = new ArrayList<Wallet>(member.getAccounts().length);
-		for(Account account : member.getAccounts()) {
-			Wallet wallet = new Wallet(account.getCurrency().toUpperCase(), account.getBalance());
-			wallets.add(wallet);
-		}
+		List<Wallet> wallets = Arrays
+				.stream(member.getAccounts())
+				.map(account -> new Wallet(account.getCurrency().toUpperCase(),
+						account.getBalance())).collect(toList());
 		AccountInfo accountInfo = new AccountInfo(member.getEmail(), wallets);
 		return accountInfo;
+	}
+
+	public static OpenOrders adaptOpenOrders(Map<Market, Order[]> ordersMap) {
+		List<LimitOrder> openOrders = ordersMap
+				.entrySet()
+				.stream()
+				.map(e -> adaptLimitOrders(e.getKey(), e.getValue()))
+				.flatMap(x -> x.stream())
+				.collect(toList());
+		return new OpenOrders(openOrders);
 	}
 
 }

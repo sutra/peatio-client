@@ -19,6 +19,7 @@ public class Order extends BaseObject {
 	private final BigDecimal volume;
 	private final BigDecimal remainingVolume;
 	private final BigDecimal executedVolume;
+	private final int tradesCount;
 
 	/**
 	 *
@@ -36,6 +37,7 @@ public class Order extends BaseObject {
 	 * @param volume volume to buy/sell.
 	 * @param remainingVolume remaining volume is always less than or equal to volume.
 	 * @param executedVolume volume = remaingVolume + executedVolume.
+	 * @param tradesCount the number of executions.
 	 */
 	public Order(
 			@JsonProperty("id") long id,
@@ -49,7 +51,8 @@ public class Order extends BaseObject {
 			@JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ssXXX") Date createdAt,
 			@JsonProperty("volume") BigDecimal volume,
 			@JsonProperty("remaining_volume") BigDecimal remainingVolume,
-			@JsonProperty("executed_volume") BigDecimal executedVolume) {
+			@JsonProperty("executed_volume") BigDecimal executedVolume,
+			@JsonProperty("trades_count") int tradesCount) {
 		this.id = id;
 		this.side = side;
 		this.ordType = ordType;
@@ -61,6 +64,7 @@ public class Order extends BaseObject {
 		this.volume = volume;
 		this.remainingVolume = remainingVolume;
 		this.executedVolume = executedVolume;
+		this.tradesCount = tradesCount;
 	}
 
 	public long getId() {
@@ -105,6 +109,10 @@ public class Order extends BaseObject {
 
 	public BigDecimal getExecutedVolume() {
 		return executedVolume;
+	}
+
+	public int getTradesCount() {
+		return tradesCount;
 	}
 
 }
