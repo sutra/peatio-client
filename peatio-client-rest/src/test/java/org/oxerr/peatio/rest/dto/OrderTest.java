@@ -36,7 +36,7 @@ public class OrderTest {
 		assertEquals(new BigDecimal("0.0001"), order.getVolume());
 		assertEquals(new BigDecimal("0.0001"), order.getRemainingVolume());
 		assertEquals(new BigDecimal("0.0"), order.getExecutedVolume());
-		assertEquals(0, order.getTradesCount());
+		assertEquals(new Integer(0), order.getTradesCount());
 	}
 
 	@Test

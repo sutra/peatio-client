@@ -19,7 +19,7 @@ public class Order extends BaseObject {
 	private final BigDecimal volume;
 	private final BigDecimal remainingVolume;
 	private final BigDecimal executedVolume;
-	private final int tradesCount;
+	private final Integer tradesCount;
 
 	/**
 	 *
@@ -52,7 +52,7 @@ public class Order extends BaseObject {
 			@JsonProperty("volume") BigDecimal volume,
 			@JsonProperty("remaining_volume") BigDecimal remainingVolume,
 			@JsonProperty("executed_volume") BigDecimal executedVolume,
-			@JsonProperty("trades_count") int tradesCount) {
+			@JsonProperty("trades_count") Integer tradesCount) {
 		this.id = id;
 		this.side = side;
 		this.ordType = ordType;
@@ -111,7 +111,7 @@ public class Order extends BaseObject {
 		return executedVolume;
 	}
 
-	public int getTradesCount() {
+	public Integer getTradesCount() {
 		return tradesCount;
 	}
 

@@ -78,7 +78,7 @@ public class PeatioMarketServiceExample {
 			log.info("{}: {}", market, depth);
 
 			// Get recent trades on market.
-			Trade[] trades = mdServiceRaw.getTrades(market.getId(), null, null, null, null, null);
+			Trade[] trades = mdServiceRaw.getTrades(market.getId(), 2, null, null, null, null);
 			log.info("{}: {}", market, trades);
 
 			log.info("{}: {}", market, mdService.getTrades(currencyPair));

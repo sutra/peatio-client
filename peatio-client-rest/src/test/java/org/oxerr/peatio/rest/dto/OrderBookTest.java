@@ -1,6 +1,7 @@
 package org.oxerr.peatio.rest.dto;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -39,6 +40,7 @@ public class OrderBookTest {
 		assertEquals(new BigDecimal("2.22"), ask0.getVolume());
 		assertEquals(new BigDecimal("1.1188"), ask0.getRemainingVolume());
 		assertEquals(new BigDecimal("1.1012"), ask0.getExecutedVolume());
+		assertNull(ask0.getTradesCount());
 
 		Order bid0 = orderBook.getBids()[0];
 		assertEquals(87515L, bid0.getId());
@@ -52,6 +54,7 @@ public class OrderBookTest {
 		assertEquals(new BigDecimal("1.87"), bid0.getVolume());
 		assertEquals(new BigDecimal("1.87"), bid0.getRemainingVolume());
 		assertEquals(new BigDecimal("0.0"), bid0.getExecutedVolume());
+		assertNull(bid0.getTradesCount());
 	}
 
 }

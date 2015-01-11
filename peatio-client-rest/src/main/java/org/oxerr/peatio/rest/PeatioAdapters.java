@@ -68,9 +68,10 @@ public final class PeatioAdapters {
 			.build();
 	}
 
-	public static OrderBook adaptOrderBook(org.oxerr.peatio.rest.dto.OrderBook orderBook) {
-		List<LimitOrder> asks = adaptLimitOrders(orderBook.getAsks());
-		List<LimitOrder> bids = adaptLimitOrders(orderBook.getBids());
+	public static OrderBook adaptOrderBook(CurrencyPair currencyPair,
+			org.oxerr.peatio.rest.dto.OrderBook orderBook) {
+		List<LimitOrder> asks = adaptLimitOrders(currencyPair, orderBook.getAsks());
+		List<LimitOrder> bids = adaptLimitOrders(currencyPair, orderBook.getBids());
 		return new OrderBook(new Date(), asks, bids);
 	}
 
@@ -108,9 +109,11 @@ public final class PeatioAdapters {
 
 		OrderType orderType;
 		switch (side) {
+		case "sell":
 		case "ask":
 			orderType = OrderType.ASK;
 			break;
+		case "buy":
 		case "bid":
 			orderType = OrderType.BID;
 			break;
@@ -126,8 +129,10 @@ public final class PeatioAdapters {
 
 	public static Trades adaptTrades(
 			org.oxerr.peatio.rest.dto.Trade[] tradeArray) {
-		return new Trades(Arrays.stream(tradeArray)
-				.map(trade -> adaptTrade(trade)).collect(toList()),
+		List<Trade> tradeList = Arrays.stream(tradeArray)
+				.map(trade -> adaptTrade(trade)).collect(toList());
+		return new Trades(tradeList,
+				tradeList.size() > 0 ? new Long(tradeList.get(0).getId()) : null,
 				TradeSortType.SortByID);
 	}
 

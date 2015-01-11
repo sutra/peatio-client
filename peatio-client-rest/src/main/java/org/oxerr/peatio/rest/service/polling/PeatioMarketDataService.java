@@ -49,7 +49,7 @@ public class PeatioMarketDataService extends PeatioMarketDataServiceRaw
 		String market = PeatioAdapters.adaptMarketId(currencyPair);
 		Integer asksLimit = args.length > 0 ? ((Number) args[0]).intValue() : null;
 		Integer bidsLimit = args.length > 1 ? ((Number) args[1]).intValue() : null;
-		return PeatioAdapters.adaptOrderBook(getOrderBook(market, asksLimit, bidsLimit));
+		return PeatioAdapters.adaptOrderBook(currencyPair, getOrderBook(market, asksLimit, bidsLimit));
 	}
 
 	/**
