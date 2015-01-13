@@ -4,7 +4,6 @@ import static java.util.stream.Collectors.toList;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -72,7 +71,7 @@ public final class PeatioAdapters {
 			org.oxerr.peatio.rest.dto.OrderBook orderBook) {
 		List<LimitOrder> asks = adaptLimitOrders(currencyPair, orderBook.getAsks());
 		List<LimitOrder> bids = adaptLimitOrders(currencyPair, orderBook.getBids());
-		return new OrderBook(new Date(), asks, bids);
+		return new OrderBook(null, asks, bids);
 	}
 
 	public static List<LimitOrder> adaptLimitOrders(Order[] orders) {
