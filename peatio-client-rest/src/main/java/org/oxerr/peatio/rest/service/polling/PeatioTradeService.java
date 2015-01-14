@@ -96,7 +96,7 @@ public class PeatioTradeService extends PeatioTradeServiceRaw implements
 	public boolean cancelOrder(String orderId) throws ExchangeException,
 			NotAvailableFromExchangeException,
 			NotYetImplementedForExchangeException, IOException {
-		Order order = peatio.deleteOrder(orderId, tonce, signature, Long.parseLong(orderId));
+		Order order = deleteOrder(Long.parseLong(orderId));
 		log.debug("order: {}", order);
 
 		// the state before we deleting it, is 'wait', that means we cancelled it successfully.
