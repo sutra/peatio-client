@@ -22,6 +22,8 @@ import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.NotYetImplementedForExchangeException;
+import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.marketdata.TradeServiceHelper;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
@@ -145,6 +147,16 @@ public class PeatioTradeService extends PeatioTradeServiceRaw implements
 	@Override
 	public TradeHistoryParams createTradeHistoryParams() {
 		return new TradeHistoryParamsAll();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Map<CurrencyPair, ? extends TradeServiceHelper> getTradeServiceHelperMap()
+			throws ExchangeException, NotAvailableFromExchangeException,
+			NotYetImplementedForExchangeException, IOException {
+		throw new NotAvailableFromExchangeException();
 	}
 
 	public class PeatioTradeHistoryParams extends TradeHistoryParamsAll {
