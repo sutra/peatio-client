@@ -3,6 +3,8 @@ package org.oxerr.peatio.rest.dto;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import org.oxerr.peatio.rest.Peatio;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -26,6 +28,9 @@ public class Trade extends BaseObject {
 	 * @param market the market trade belongs to, like 'btccny'.
 	 * @param createdAt trade time.
 	 * @param side the side.
+	 * @param orderId my order ID related to this trade.
+	 * Only {@link Peatio#getMyTrades} returns this field,
+	 * indicates which order this trade belongs to.
 	 */
 	public Trade(
 			@JsonProperty("id") long id,
