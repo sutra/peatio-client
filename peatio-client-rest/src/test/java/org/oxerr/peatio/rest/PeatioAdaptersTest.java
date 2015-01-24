@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.junit.Test;
+import org.oxerr.peatio.rest.dto.Depth;
 import org.oxerr.peatio.rest.dto.MarketTicker;
 
 import com.fasterxml.jackson.core.JsonParseException;
@@ -68,8 +69,8 @@ public class PeatioAdaptersTest {
 			JsonMappingException, IOException {
 		OrderBook orderBook = PeatioAdapters.adaptOrderBook(CurrencyPair.BTC_CNY,
 				mapper.readValue(
-				getClass().getResource("dto/order_book.json"),
-				org.oxerr.peatio.rest.dto.OrderBook.class));
+				getClass().getResource("dto/depth.json"),
+				Depth.class));
 		List<LimitOrder> asks = orderBook.getAsks();
 		List<LimitOrder> bids = orderBook.getBids();
 
@@ -77,20 +78,16 @@ public class PeatioAdaptersTest {
 		assertEquals(2, bids.size());
 
 		LimitOrder ask0 = asks.get(0);
-		assertEquals("116012", ask0.getId());
-		assertEquals(OrderType.ASK, ask0.getType());
-		assertEquals(new BigDecimal("3606.78"), ask0.getLimitPrice());
 		assertEquals(CurrencyPair.BTC_CNY, ask0.getCurrencyPair());
-		assertEquals("2014-10-27T04:21:45+08:00", fmt.format(ask0.getTimestamp()));
-		assertEquals(new BigDecimal("1.1188"), ask0.getTradableAmount());
+		assertEquals(OrderType.ASK, ask0.getType());
+		assertEquals(new BigDecimal("1512.27"), ask0.getLimitPrice());
+		assertEquals(new BigDecimal("0.01"), ask0.getTradableAmount());
 
 		LimitOrder bid0 = bids.get(0);
-		assertEquals("87515", bid0.getId());
-		assertEquals(OrderType.BID, bid0.getType());
-		assertEquals(new BigDecimal("3586.0"), bid0.getLimitPrice());
 		assertEquals(CurrencyPair.BTC_CNY, bid0.getCurrencyPair());
-		assertEquals("2014-08-03T23:23:15+08:00", fmt.format(bid0.getTimestamp()));
-		assertEquals(new BigDecimal("1.87"), bid0.getTradableAmount());
+		assertEquals(OrderType.BID, bid0.getType());
+		assertEquals(new BigDecimal("1505.17"), bid0.getLimitPrice());
+		assertEquals(new BigDecimal("0.09"), bid0.getTradableAmount());
 	}
 
 	@Test

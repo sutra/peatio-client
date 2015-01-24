@@ -2,11 +2,13 @@ package org.oxerr.peatio.rest;
 
 import static java.util.stream.Collectors.toList;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import org.oxerr.peatio.rest.dto.Depth;
 import org.oxerr.peatio.rest.dto.Market;
 import org.oxerr.peatio.rest.dto.MarketTicker;
 import org.oxerr.peatio.rest.dto.Member;
@@ -67,11 +69,39 @@ public final class PeatioAdapters {
 			.build();
 	}
 
-	public static OrderBook adaptOrderBook(CurrencyPair currencyPair,
-			org.oxerr.peatio.rest.dto.OrderBook orderBook) {
-		List<LimitOrder> asks = adaptLimitOrders(currencyPair, orderBook.getAsks());
-		List<LimitOrder> bids = adaptLimitOrders(currencyPair, orderBook.getBids());
-		return new OrderBook(null, asks, bids);
+	/**
+	 * Adapt market depth to generic order book.
+	 *
+	 * @param currencyPair the currency pair.
+	 * @param depth the raw depth.
+	 * @return the generic order book.
+	 */
+	public static OrderBook adaptOrderBook(CurrencyPair currencyPair, Depth depth) {
+		List<LimitOrder> asks = adaptLimitOrders(currencyPair, OrderType.ASK, depth.getAsks());
+		List<LimitOrder> bids = adaptLimitOrders(currencyPair, OrderType.BID, depth.getBids());
+		return new OrderBook(depth.getTimestamp(), asks, bids);
+	}
+
+	/**
+	 * Adapt depth items to limit order list.
+	 *
+	 * @param currencyPair the currency pair.
+	 * @param orderType the order type, bid or ask.
+	 * @param items the depth items.
+	 * @return the sorted limit order list.
+	 */
+	public static List<LimitOrder> adaptLimitOrders(CurrencyPair currencyPair,
+			OrderType orderType, BigDecimal[][] items) {
+		return Arrays
+			.stream(items)
+			.map(
+				item -> new LimitOrder.Builder(orderType, currencyPair)
+					.limitPrice(item[0])
+					.tradableAmount(item[1])
+					.build()
+			)
+			.sorted()
+			.collect(toList());
 	}
 
 	public static List<LimitOrder> adaptLimitOrders(Order[] orders) {

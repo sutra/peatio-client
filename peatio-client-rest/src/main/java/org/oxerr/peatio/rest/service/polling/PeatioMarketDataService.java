@@ -47,9 +47,8 @@ public class PeatioMarketDataService extends PeatioMarketDataServiceRaw
 			throws ExchangeException, NotAvailableFromExchangeException,
 			NotYetImplementedForExchangeException, IOException {
 		String market = PeatioAdapters.adaptMarketId(currencyPair);
-		Integer asksLimit = args.length > 0 ? ((Number) args[0]).intValue() : null;
-		Integer bidsLimit = args.length > 1 ? ((Number) args[1]).intValue() : null;
-		return PeatioAdapters.adaptOrderBook(currencyPair, getOrderBook(market, asksLimit, bidsLimit));
+		Integer limit = args.length > 0 ? ((Number) args[0]).intValue() : null;
+		return PeatioAdapters.adaptOrderBook(currencyPair, getDepth(market, limit));
 	}
 
 	/**
