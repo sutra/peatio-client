@@ -57,7 +57,7 @@ public class PeatioClientEndpoint {
 			onChallenge((String) object, session);
 			break;
 		case "success":
-			log.debug("success: {}", object);
+			log.trace("success: {}", object);
 			break;
 		case "error":
 			log.trace("error: {}", object);
