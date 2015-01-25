@@ -1,0 +1,25 @@
+{
+	"trade":{
+		"id":1750528,
+		"price":"1272.21",
+		"volume":"0.05",
+		"funds":"63.6105",
+		"market":"btccny",
+		"created_at":"2015-01-20T07:45:36Z",
+		"side":"ask",
+		"ask":{
+			"id":10049808,
+			"side":"sell",
+			"ord_type":"limit",
+			"price":"1272.21",
+			"avg_price":"1272.21",
+			"state":"done",
+			"market":"btccny",
+			"created_at":"2015-01-20T07:45:36Z",
+			"volume":"0.05",
+			"remaining_volume":"0.0",
+			"executed_volume":"0.05",
+			"trades_count":1
+		}
+	}
+}

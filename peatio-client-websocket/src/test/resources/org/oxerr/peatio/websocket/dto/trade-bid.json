@@ -1,0 +1,25 @@
+{
+	"trade":{
+		"id":1750537,
+		"price":"1271.49",
+		"volume":"0.01",
+		"funds":"12.7149",
+		"market":"btccny",
+		"created_at":"2015-01-20T07:47:26Z",
+		"side":"bid",
+		"bid":{
+			"id":10049741,
+			"side":"buy",
+			"ord_type":"limit",
+			"price":"1271.49",
+			"avg_price":"1271.49",
+			"state":"wait",
+			"market":"btccny",
+			"created_at":"2015-01-20T07:43:11Z",
+			"volume":"0.05",
+			"remaining_volume":"0.04",
+			"executed_volume":"0.01",
+			"trades_count":1
+		}
+	}
+}

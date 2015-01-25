@@ -1,0 +1,15 @@
+{
+	"orderbook":{
+		"action":"add",
+		"order":{
+			"id":10049800,
+			"timestamp":1421739930,
+			"type":"ask",
+			"volume":"0.0109",
+			"price":"1272.27",
+			"market":"btccny",
+			"ord_type":"limit"
+		},
+		"locale":"zh-CN"
+	}
+}

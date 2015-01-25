@@ -71,7 +71,10 @@ public class PeatioMarketServiceExample {
 					orderBook.getAsks().length, orderBook.getBids().length);
 			log.info("{}: {}", market, orderBook);
 
-			log.info("{}: {}", market, mdService.getOrderBook(currencyPair));
+			com.xeiam.xchange.dto.marketdata.OrderBook genericOrderBook = mdService.getOrderBook(currencyPair);
+			log.info("{}: {}", market, genericOrderBook);
+			log.info("bestAsk: {}", genericOrderBook.getAsks().stream().findFirst().get().getLimitPrice());
+			log.info("bestBid: {}", genericOrderBook.getBids().stream().findFirst().get().getLimitPrice());
 
 			// Get the depth of specified market. Both asks and bids are sorted from highest price to lowest.
 			Depth depth = mdServiceRaw.getDepth(market.getId(), null);

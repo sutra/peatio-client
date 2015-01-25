@@ -8,30 +8,34 @@
 		<artifactId>peatio-client</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
-	<artifactId>peatio-client-examples</artifactId>
-	<name>Peatio Client - Examples</name>
+	<artifactId>peatio-client-websocket</artifactId>
+	<name>Peatio Client - WebSocket</name>
+	<description>
+	<![CDATA[
+		Client for <a href="http://peatio.com">Peatio</a> WebSocket API.
+	]]>
+	</description>
 	<dependencies>
+		<dependency>
+			<groupId>javax.json</groupId>
+			<artifactId>javax.json-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax.websocket</groupId>
+			<artifactId>javax.websocket-client-api</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.glassfish</groupId>
 			<artifactId>javax.json</artifactId>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.glassfish.tyrus</groupId>
-			<artifactId>tyrus-container-grizzly-client</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-classic</artifactId>
-			<optional>true</optional>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>peatio-client-rest</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>peatio-client-websocket</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 	</dependencies>

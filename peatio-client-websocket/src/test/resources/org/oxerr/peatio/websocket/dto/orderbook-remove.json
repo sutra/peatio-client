@@ -1,0 +1,15 @@
+{
+	"orderbook":{
+		"action":"remove",
+		"order":{
+			"id":10049789,
+			"timestamp":1421739881,
+			"type":"bid",
+			"volume":"0.0",
+			"price":"1272.55",
+			"market":"btccny",
+			"ord_type":"limit"
+		},
+		"locale":"zh-CN"
+	}
+}

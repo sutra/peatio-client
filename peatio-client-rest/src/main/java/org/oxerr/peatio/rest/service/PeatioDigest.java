@@ -54,9 +54,7 @@ public class PeatioDigest extends BaseParamsDigest {
 		final String payload = String.join("|", verb, uri, query);
 		log.debug("payload: {}", payload);
 
-		Mac mac = getMac();
-		byte[] hash = mac.doFinal(payload.getBytes(StandardCharsets.UTF_8));
-		String signature = DigestUtils.bytesToHex(hash).toLowerCase();
+		String signature = sign(payload);
 
 		// Seems rescu does not support ParamsDigest in QueryParam.
 		// hack to replace the signature in the invocation URL.
@@ -70,6 +68,13 @@ public class PeatioDigest extends BaseParamsDigest {
 		}
 		log.debug("new invocationUrl: {}", restInvocation.getInvocationUrl());
 
+		return signature;
+	}
+
+	public String sign(String payload) {
+		Mac mac = getMac();
+		byte[] hash = mac.doFinal(payload.getBytes(StandardCharsets.UTF_8));
+		String signature = DigestUtils.bytesToHex(hash).toLowerCase();
 		return signature;
 	}
 
