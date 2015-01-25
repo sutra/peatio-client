@@ -5,7 +5,7 @@ import org.oxerr.peatio.rest.dto.BaseObject;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * the answer to {@link Challenge}.
+ * The answer for the challenge message.
  */
 public class Auth extends BaseObject {
 
