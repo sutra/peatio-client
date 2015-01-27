@@ -132,8 +132,8 @@ public class PeatioTradeService extends PeatioTradeServiceRaw implements
 		String market = PeatioAdapters.adaptMarketId(p.getCurrencyPair());
 		Integer limit = p.getPageLength();
 		Long timestamp = p.getEndTime() == null ? null : p.getEndTime().getTime();
-		Long from = p.getStartId() == null ? null : new Long(p.getStartId());
-		Long to = p.getEndId() == null ? null : new Long(p.getEndId());
+		Long from = p.getStartId() == null ? null : Long.valueOf(p.getStartId());
+		Long to = p.getEndId() == null ? null : Long.valueOf(p.getEndId());
 		String orderBy = p.getOrderBy();
 		return adaptUserTrades(p.getCurrencyPair(),
 				getMyTrades(market, limit, timestamp, from, to, orderBy));
@@ -147,7 +147,7 @@ public class PeatioTradeService extends PeatioTradeServiceRaw implements
 		return new TradeHistoryParamsAll();
 	}
 
-	public class PeatioTradeHistoryParams extends TradeHistoryParamsAll {
+	public static class PeatioTradeHistoryParams extends TradeHistoryParamsAll {
 
 		private String orderBy;
 

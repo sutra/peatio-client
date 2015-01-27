@@ -37,7 +37,7 @@ public class OrderBook extends BaseObject {
 		return locale;
 	}
 
-	public class Order extends BaseObject {
+	public static class Order extends BaseObject {
 		private final long id;
 		private final Instant timestamp;
 		private final String type;

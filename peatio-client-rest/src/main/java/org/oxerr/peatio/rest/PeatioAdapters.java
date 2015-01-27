@@ -161,7 +161,7 @@ public final class PeatioAdapters {
 		List<Trade> tradeList = Arrays.stream(tradeArray)
 				.map(trade -> adaptTrade(trade)).collect(toList());
 		return new Trades(tradeList,
-				tradeList.size() > 0 ? new Long(tradeList.get(0).getId()) : null,
+				tradeList.size() > 0 ? Long.valueOf(tradeList.get(0).getId()) : null,
 				TradeSortType.SortByID);
 	}
 

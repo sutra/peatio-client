@@ -21,7 +21,7 @@ public class Order extends org.oxerr.peatio.rest.dto.Order {
 			new BigDecimal(jsonObject.getString("volume")),
 			new BigDecimal(jsonObject.getString("remaining_volume")),
 			new BigDecimal(jsonObject.getString("executed_volume")),
-			new Integer(jsonObject.getInt("trades_count"))
+			Integer.valueOf(jsonObject.getInt("trades_count"))
 		);
 	}
 
