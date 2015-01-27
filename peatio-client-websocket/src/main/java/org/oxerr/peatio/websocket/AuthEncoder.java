@@ -39,6 +39,6 @@ public class AuthEncoder implements Encoder.TextStream<Auth> {
 				.write("answer", auth.getAnswer())
 				.writeEnd()
 			.writeEnd()
-		.flush();;
+		.flush();
 	}
 }
