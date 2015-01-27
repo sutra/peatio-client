@@ -13,6 +13,7 @@
 		Client for <a href="http://peatio.com">Peatio</a>.
 	]]>
 	</description>
+	<url>https://oxerr.org/peatio-client/</url>
 	<inceptionYear>2015</inceptionYear>
 	<licenses>
 		<license>
@@ -97,6 +98,13 @@
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-site-plugin</artifactId>
 					<version>3.4</version>
+					<dependencies>
+						<dependency>
+							<groupId>org.apache.maven.wagon</groupId>
+							<artifactId>wagon-ssh</artifactId>
+							<version>2.8</version>
+						</dependency>
+					</dependencies>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
@@ -237,4 +245,10 @@
 		<system>GitHub</system>
 		<url>https://github.com/sutra/peatio-client/issues</url>
 	</issueManagement>
+	<distributionManagement>
+		<site>
+			<id>oxerr.org</id>
+			<url>scp://oxerr.org/usr/local/www/peatio-client/</url>
+		</site>
+	</distributionManagement>
 </project>
