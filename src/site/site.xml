@@ -16,16 +16,8 @@
 		<fluidoSkin>
 			<topBarEnabled>true</topBarEnabled>
 			<sideBarEnabled>true</sideBarEnabled>
-			<googleSearch />
 			<sourceLineNumbersEnabled>true</sourceLineNumbersEnabled>
 			<copyrightClass>pull-right</copyrightClass>
-			<gitHub>
-				<projectId>sutra/peatio-client</projectId>
-				<ribbonOrientation>right</ribbonOrientation>
-				<ribbonColor>green</ribbonColor>
-			</gitHub>
-			<facebookLike />
-			<googlePlusOne />
 		</fluidoSkin>
 	</custom>
 </project>
