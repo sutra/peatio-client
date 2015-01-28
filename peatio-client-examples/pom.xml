@@ -10,6 +10,9 @@
 	</parent>
 	<artifactId>peatio-client-examples</artifactId>
 	<name>Peatio Client - Examples</name>
+	<description>
+		Examples demonstrate how to use this library.
+	</description>
 	<dependencies>
 		<dependency>
 			<groupId>org.glassfish</groupId>
