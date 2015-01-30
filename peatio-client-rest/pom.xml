@@ -12,7 +12,7 @@
 	<name>Peatio Client - REST</name>
 	<description>
 	<![CDATA[
-		Client for <a href="http://peatio.com">Peatio</a> RESTful API.
+		Client for <a href="http://peat.io">Peatio</a> RESTful API.
 	]]>
 	</description>
 	<dependencies>

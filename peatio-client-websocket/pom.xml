@@ -12,7 +12,7 @@
 	<name>Peatio Client - WebSocket</name>
 	<description>
 	<![CDATA[
-		Client for <a href="http://peatio.com">Peatio</a> WebSocket API.
+		Client for <a href="http://peat.io">Peatio</a> WebSocket API.
 	]]>
 	</description>
 	<dependencies>
