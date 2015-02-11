@@ -4,15 +4,13 @@ import java.io.IOException;
 import java.util.Date;
 
 import org.oxerr.peatio.rest.PeatioAdapters;
+import org.oxerr.peatio.rest.PeatioException;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
-import com.xeiam.xchange.exceptions.ExchangeException;
-import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
-import com.xeiam.xchange.exceptions.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 
 /**
@@ -30,8 +28,7 @@ public class PeatioMarketDataService extends PeatioMarketDataServiceRaw
 	 */
 	@Override
 	public Ticker getTicker(CurrencyPair currencyPair, Object... args)
-			throws ExchangeException, NotAvailableFromExchangeException,
-			NotYetImplementedForExchangeException, IOException {
+			throws PeatioException, IOException {
 		String market = PeatioAdapters.adaptMarketId(currencyPair);
 		return PeatioAdapters.adaptTicker(currencyPair, getTicker(market));
 	}
@@ -41,8 +38,7 @@ public class PeatioMarketDataService extends PeatioMarketDataServiceRaw
 	 */
 	@Override
 	public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args)
-			throws ExchangeException, NotAvailableFromExchangeException,
-			NotYetImplementedForExchangeException, IOException {
+			throws PeatioException, IOException {
 		String market = PeatioAdapters.adaptMarketId(currencyPair);
 		Integer limit = args.length > 0 ? ((Number) args[0]).intValue() : null;
 		return PeatioAdapters.adaptOrderBook(currencyPair, getDepth(market, limit));
@@ -53,8 +49,7 @@ public class PeatioMarketDataService extends PeatioMarketDataServiceRaw
 	 */
 	@Override
 	public Trades getTrades(CurrencyPair currencyPair, Object... args)
-			throws ExchangeException, NotAvailableFromExchangeException,
-			NotYetImplementedForExchangeException, IOException {
+			throws PeatioException, IOException {
 		String market = PeatioAdapters.adaptMarketId(currencyPair);
 		Integer limit = args.length > 0 ? ((Number) args[0]).intValue() : null;
 		Long timestamp = args.length > 1 ? ((Date) args[1]).getTime() : null;

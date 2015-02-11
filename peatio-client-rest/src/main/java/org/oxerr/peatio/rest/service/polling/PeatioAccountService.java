@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 
 import org.oxerr.peatio.rest.PeatioAdapters;
+import org.oxerr.peatio.rest.PeatioException;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.account.AccountInfo;
@@ -26,9 +27,7 @@ public class PeatioAccountService extends PeatioAccountServiceRaw implements
 	 * {@inheritDoc}
 	 */
 	@Override
-	public AccountInfo getAccountInfo() throws ExchangeException,
-			NotAvailableFromExchangeException,
-			NotYetImplementedForExchangeException, IOException {
+	public AccountInfo getAccountInfo() throws PeatioException, IOException {
 		return PeatioAdapters.adaptMember(getMe());
 	}
 

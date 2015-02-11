@@ -10,6 +10,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.oxerr.peatio.rest.PeatioAdapters;
+import org.oxerr.peatio.rest.PeatioException;
 import org.oxerr.peatio.rest.dto.Market;
 import org.oxerr.peatio.rest.dto.Order;
 import org.oxerr.peatio.rest.dto.Trade;
@@ -21,9 +22,6 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrades;
-import com.xeiam.xchange.exceptions.ExchangeException;
-import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
-import com.xeiam.xchange.exceptions.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.service.polling.trade.PollingTradeService;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamsAll;
@@ -44,9 +42,7 @@ public class PeatioTradeService extends PeatioTradeServiceRaw implements
 	 * {@inheritDoc}
 	 */
 	@Override
-	public OpenOrders getOpenOrders() throws ExchangeException,
-			NotAvailableFromExchangeException,
-			NotYetImplementedForExchangeException, IOException {
+	public OpenOrders getOpenOrders() throws PeatioException, IOException {
 		Market[] markets = getMarkets();
 		Map<Market, Order[]> ordersMap = new LinkedHashMap<>(markets.length);
 		for (Market market : markets) {
@@ -61,8 +57,7 @@ public class PeatioTradeService extends PeatioTradeServiceRaw implements
 	 */
 	@Override
 	public String placeMarketOrder(MarketOrder marketOrder)
-			throws ExchangeException, NotAvailableFromExchangeException,
-			NotYetImplementedForExchangeException, IOException {
+			throws PeatioException, IOException {
 		String market = adaptMarketId(marketOrder.getCurrencyPair());
 		String side = adaptSide(marketOrder.getType());
 		Order order = placeOrder(market, side, marketOrder.getTradableAmount(),
@@ -76,8 +71,7 @@ public class PeatioTradeService extends PeatioTradeServiceRaw implements
 	 */
 	@Override
 	public String placeLimitOrder(LimitOrder limitOrder)
-			throws ExchangeException, NotAvailableFromExchangeException,
-			NotYetImplementedForExchangeException, IOException {
+			throws PeatioException, IOException {
 		String market = adaptMarketId(limitOrder.getCurrencyPair());
 		String side = adaptSide(limitOrder.getType());
 		Order order = placeOrder(market, side, limitOrder.getTradableAmount(),
@@ -90,9 +84,8 @@ public class PeatioTradeService extends PeatioTradeServiceRaw implements
 	 * {@inheritDoc}
 	 */
 	@Override
-	public boolean cancelOrder(String orderId) throws ExchangeException,
-			NotAvailableFromExchangeException,
-			NotYetImplementedForExchangeException, IOException {
+	public boolean cancelOrder(String orderId) throws PeatioException,
+			IOException {
 		Order order = deleteOrder(Long.parseLong(orderId));
 		log.debug("order: {}", order);
 
@@ -105,8 +98,7 @@ public class PeatioTradeService extends PeatioTradeServiceRaw implements
 	 */
 	@Override
 	public UserTrades getTradeHistory(Object... arguments)
-			throws ExchangeException, NotAvailableFromExchangeException,
-			NotYetImplementedForExchangeException, IOException {
+			throws PeatioException, IOException {
 		Market[] markets = getMarkets();
 		Map<Market, Trade[]> ordersMap = new LinkedHashMap<>(markets.length);
 		for (Market market : markets) {
@@ -123,8 +115,7 @@ public class PeatioTradeService extends PeatioTradeServiceRaw implements
 	 */
 	@Override
 	public UserTrades getTradeHistory(TradeHistoryParams params)
-			throws ExchangeException, NotAvailableFromExchangeException,
-			NotYetImplementedForExchangeException, IOException {
+			throws PeatioException, IOException {
 		PeatioTradeHistoryParams p = (PeatioTradeHistoryParams) params;
 		String market = PeatioAdapters.adaptMarketId(p.getCurrencyPair());
 		Integer limit = p.getPageLength();

@@ -31,24 +31,24 @@ public interface Peatio {
 	 * Get all available markets.
 	 *
 	 * @return all available markets.
-	 * @throws IOException indicates I/O exception.
 	 * @throws PeatioException indicates peatio exchange exception.
+	 * @throws IOException indicates I/O exception.
 	 */
 	@GET
 	@Path("markets.json")
-	Market[] getMarkets() throws IOException, PeatioException;
+	Market[] getMarkets() throws PeatioException, IOException;
 
 	/**
 	 * Get ticker of all markets.
 	 *
 	 * @return ticker of all markets.
-	 * @throws IOException indicates I/O exception.
 	 * @throws PeatioException indicates peatio exchange exception.
+	 * @throws IOException indicates I/O exception.
 	 */
 	@GET
 	@Path("tickers.json")
 	Map<String, MarketTicker> getTickers()
-			throws IOException, PeatioException;
+			throws PeatioException, IOException;
 
 	/**
 	 * Get ticker of specific market.
@@ -57,14 +57,14 @@ public interface Peatio {
 	 * where xxx is the base currency code, yyy is the quote currency code,
 	 * e.g. 'btccny'. All available markets can be found at {@link #getMarkets()}.
 	 * @return the ticker of the specific market.
-	 * @throws IOException indicates I/O exception.
 	 * @throws PeatioException indicates peatio exchange exception.
+	 * @throws IOException indicates I/O exception.
 	 */
 	@GET
 	@Path("tickers/{market}.json")
 	MarketTicker getTicker(
 			@PathParam("market") String market)
-					throws IOException, PeatioException;
+					throws PeatioException, IOException;
 
 	/**
 	 * Get your profile and accounts info.
@@ -75,8 +75,8 @@ public interface Peatio {
 	 * @param signature the signature of you request payload, generated
 	 * using your secret key.
 	 * @return your profile and accounts info.
-	 * @throws IOException indicates I/O exception.
 	 * @throws PeatioException indicates peatio exchange exception.
+	 * @throws IOException indicates I/O exception.
 	 */
 	@GET
 	@Path("members/me.json")
@@ -84,7 +84,7 @@ public interface Peatio {
 			@QueryParam("access_key") String accessKey,
 			@QueryParam("tonce") SynchronizedValueFactory<Long> tonce,
 			@QueryParam("signature") ParamsDigest signature)
-					throws IOException, PeatioException;
+					throws PeatioException, IOException;
 
 	/**
 	 * Get your deposits information.
@@ -96,8 +96,8 @@ public interface Peatio {
 	 * using your secret key.
 	 * @param currency currency value.
 	 * @return deposits information.
-	 * @throws IOException indicates I/O exception.
 	 * @throws PeatioException indicates peatio exchange exception.
+	 * @throws IOException indicates I/O exception.
 	 */
 	@GET
 	@Path("deposits.json")
@@ -106,7 +106,7 @@ public interface Peatio {
 			@QueryParam("tonce") SynchronizedValueFactory<Long> tonce,
 			@QueryParam("signature") ParamsDigest signature,
 			@QueryParam("currency") String currency)
-					throws IOException, PeatioException;
+					throws PeatioException, IOException;
 
 	/**
 	 * Get single deposit information.
@@ -118,8 +118,8 @@ public interface Peatio {
 	 * using your secret key.
 	 * @param txid the transaction id.
 	 * @return single deposit information.
-	 * @throws IOException indicates I/O exception.
 	 * @throws PeatioException indicates peatio exchange exception.
+	 * @throws IOException indicates I/O exception.
 	 */
 	@GET
 	@Path("deposit.json")
@@ -128,7 +128,7 @@ public interface Peatio {
 			@QueryParam("tonce") SynchronizedValueFactory<Long> tonce,
 			@QueryParam("signature") ParamsDigest signature,
 			@QueryParam("txid") String txid)
-					throws IOException, PeatioException;
+					throws PeatioException, IOException;
 
 	/**
 	 * Get your orders.
@@ -147,8 +147,8 @@ public interface Peatio {
 	 * @param orderBy if set, returned orders will be sorted in specific order,
 	 * default to 'asc'.
 	 * @return your orders.
-	 * @throws IOException indicates I/O exception.
 	 * @throws PeatioException indicates peatio exchange exception.
+	 * @throws IOException indicates I/O exception.
 	 */
 	@GET
 	@Path("orders.json")
@@ -161,7 +161,7 @@ public interface Peatio {
 			@QueryParam("limit") Integer limit,
 			@QueryParam("page") Integer page,
 			@QueryParam("order_by") String orderBy)
-					throws IOException, PeatioException;
+					throws PeatioException, IOException;
 
 	/**
 	 * Create a sell/buy order.
@@ -184,8 +184,8 @@ public interface Peatio {
 	 * 3000 CNY, the price is '3000.0'.
 	 * @param ordType the order type.
 	 * @return the order which created in this call.
-	 * @throws IOException indicates I/O exception.
 	 * @throws PeatioException indicates peatio exchange exception.
+	 * @throws IOException indicates I/O exception.
 	 */
 	@POST
 	@Path("orders.json")
@@ -198,7 +198,7 @@ public interface Peatio {
 			@FormParam("volume") BigDecimal volume,
 			@FormParam("price") BigDecimal price,
 			@FormParam("ord_type") String ordType)
-					throws IOException, PeatioException;
+					throws PeatioException, IOException;
 
 	/**
 	 * Create multiple sell/buy orders.
@@ -222,8 +222,8 @@ public interface Peatio {
 	 * 3000 CNY, the price is '3000.0'.
 	 * @param ordTypes the order types.
 	 * @return the orders which created in this call.
-	 * @throws IOException indicates I/O exception.
 	 * @throws PeatioException indicates peatio exchange exception.
+	 * @throws IOException indicates I/O exception.
 	 */
 	@POST
 	@Path("orders/multi.json")
@@ -236,7 +236,7 @@ public interface Peatio {
 			@FormParam("orders[volume]") BigDecimal[] volumes,
 			@FormParam("orders[price]") BigDecimal[] prices,
 			@FormParam("orders[ord_type]") String[] ordTypes)
-					throws IOException, PeatioException;
+					throws PeatioException, IOException;
 
 	/**
 	 * Cancel all my orders.
@@ -246,8 +246,8 @@ public interface Peatio {
 	 * since Unix epoch.
 	 * @param signature the signature of your request payload.
 	 * @return the orders which cancelled  in this call.
-	 * @throws IOException indicates I/O exception.
 	 * @throws PeatioException indicates peatio exchange exception.
+	 * @throws IOException indicates I/O exception.
 	 */
 	@POST
 	@Path("orders/clear.json")
@@ -255,7 +255,7 @@ public interface Peatio {
 			@FormParam("access_key") String accessKey,
 			@FormParam("tonce") SynchronizedValueFactory<Long> tonce,
 			@FormParam("signature") ParamsDigest signature)
-					throws IOException, PeatioException;
+					throws PeatioException, IOException;
 
 	/**
 	 * Get information of specified order.
@@ -267,8 +267,8 @@ public interface Peatio {
 	 * using your secret key.
 	 * @param id unique order id.
 	 * @return order information of specified order.
-	 * @throws IOException indicates I/O exception.
 	 * @throws PeatioException indicates peatio exchange exception.
+	 * @throws IOException indicates I/O exception.
 	 */
 	@GET
 	@Path("order.json")
@@ -277,7 +277,7 @@ public interface Peatio {
 			@QueryParam("tonce") SynchronizedValueFactory<Long> tonce,
 			@QueryParam("signature") ParamsDigest signature,
 			@QueryParam("id") long id)
-					throws IOException, PeatioException;
+					throws PeatioException, IOException;
 
 	/**
 	 * Cancel an order.
@@ -290,8 +290,8 @@ public interface Peatio {
 	 * @param id unique order id.
 	 * @return the order has been deleted.
 	 * The order state is the value before we deleting it.
-	 * @throws IOException indicates I/O exception.
 	 * @throws PeatioException indicates peatio exchange exception.
+	 * @throws IOException indicates I/O exception.
 	 */
 	@POST
 	@Path("order/delete.json")
@@ -300,7 +300,7 @@ public interface Peatio {
 			@QueryParam("tonce") SynchronizedValueFactory<Long> tonce,
 			@QueryParam("signature") ParamsDigest signature,
 			@QueryParam("id") long id)
-					throws IOException, PeatioException;
+					throws PeatioException, IOException;
 
 	/**
 	 * Get the order book of specified market.
@@ -311,8 +311,8 @@ public interface Peatio {
 	 * @param asksLimit limit the number of returned sell orders. Default to 20.
 	 * @param bidsLimit limit the number of returned buy orders. Default to 20.
 	 * @return the order book of the specified market.
-	 * @throws IOException indicates I/O exception.
 	 * @throws PeatioException indicates peatio exchange exception.
+	 * @throws IOException indicates I/O exception.
 	 */
 	@GET
 	@Path("order_book.json")
@@ -320,7 +320,7 @@ public interface Peatio {
 			@QueryParam("market") String market,
 			@QueryParam("asks_limit") Integer asksLimit,
 			@QueryParam("bids_limit") Integer bidsLimit)
-					throws IOException, PeatioException;
+					throws PeatioException, IOException;
 
 	/**
 	 * Get depth of specified market. Both asks and bids are sorted from
@@ -331,15 +331,15 @@ public interface Peatio {
 	 * e.g. 'btccny'. All available markets can be found at {@link #getMarkets()}.
 	 * @param limit limit the number of returned price levels. Default to 300.
 	 * @return the depth of the specified market.
-	 * @throws IOException indicates I/O exception.
 	 * @throws PeatioException indicates peatio exchange exception.
+	 * @throws IOException indicates I/O exception.
 	 */
 	@GET
 	@Path("depth.json")
 	Depth getDepth(
 			@QueryParam("market") String market,
 			@QueryParam("limit") Integer limit)
-					throws IOException, PeatioException;
+					throws PeatioException, IOException;
 
 	/**
 	 * Get recent trades on market, each trade is included only once.
@@ -358,8 +358,8 @@ public interface Peatio {
 	 * @param orderBy if set, returned trades will be sorted in specific order,
 	 * default to 'desc'.
 	 * @return the recent trades on the specified market.
-	 * @throws IOException indicates I/O exception.
 	 * @throws PeatioException indicates peatio exchange exception.
+	 * @throws IOException indicates I/O exception.
 	 */
 	@GET
 	@Path("trades.json")
@@ -370,7 +370,7 @@ public interface Peatio {
 			@QueryParam("from") Integer from,
 			@QueryParam("to") Integer to,
 			@QueryParam("order_by") String orderBy)
-					throws IOException, PeatioException;
+					throws PeatioException, IOException;
 
 	/**
 	 * Get your executed trades. Trades are sorted in reverse creation order.
@@ -393,8 +393,8 @@ public interface Peatio {
 	 * @param orderBy if set, returned trades will be sorted in specific order,
 	 * default to 'desc'.
 	 * @return your executed trades.
-	 * @throws IOException indicates I/O exception.
 	 * @throws PeatioException indicates peatio exchange exception.
+	 * @throws IOException indicates I/O exception.
 	 */
 	@GET
 	@Path("trades/my.json")
@@ -408,7 +408,7 @@ public interface Peatio {
 			@QueryParam("from") Long from,
 			@QueryParam("to") Long to,
 			@QueryParam("order_by") String orderBy)
-					throws IOException, PeatioException;
+					throws PeatioException, IOException;
 
 	/**
 	 * Get OHLC(k line) of specified market.
@@ -422,8 +422,8 @@ public interface Peatio {
 	 * @param timestamp an integer represents the seconds elapsed since Unix epoch.
 	 * If set, only k-line data after that time will be returned.
 	 * @return the OHLC of the specified market.
-	 * @throws IOException indicates I/O exception.
 	 * @throws PeatioException indicates peatio exchange exception.
+	 * @throws IOException indicates I/O exception.
 	 */
 	@GET
 	@Path("k.json")
@@ -432,7 +432,7 @@ public interface Peatio {
 			@QueryParam("limit") Integer limit,
 			@QueryParam("period") Integer period,
 			@QueryParam("timestamp") Long timestamp)
-					throws IOException, PeatioException;
+					throws PeatioException, IOException;
 
 	/**
 	 * Get K data with pending trades, which are the trades not included
@@ -449,8 +449,8 @@ public interface Peatio {
 	 * @param timestamp an integer represents the seconds elapsed since Unix epoch.
 	 * If set, only k-line data after that time will be returned.
 	 * @return K data wit pending trades.
-	 * @throws IOException indicates I/O exception.
 	 * @throws PeatioException indicates peatio exchange exception.
+	 * @throws IOException indicates I/O exception.
 	 */
 	@GET
 	@Path("k_with_pending_trades.json")
@@ -460,6 +460,6 @@ public interface Peatio {
 			@QueryParam("limit") Integer limit,
 			@QueryParam("period") Integer period,
 			@QueryParam("timestamp") Long timestamp)
-					throws IOException, PeatioException;
+					throws PeatioException, IOException;
 
 }

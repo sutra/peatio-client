@@ -35,7 +35,8 @@ public class PeatioBasePollingService extends BaseExchangeService implements
 	 * {@inheritDoc}
 	 */
 	@Override
-	public List<CurrencyPair> getExchangeSymbols() throws IOException {
+	public List<CurrencyPair> getExchangeSymbols() throws PeatioException,
+			IOException {
 		return PeatioAdapters.adaptCurrencyPairs(getMarkets());
 	}
 
