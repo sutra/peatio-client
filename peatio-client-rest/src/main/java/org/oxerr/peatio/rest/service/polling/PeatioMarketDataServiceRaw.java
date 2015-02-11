@@ -11,16 +11,15 @@ import org.oxerr.peatio.rest.dto.MarketTicker;
 import org.oxerr.peatio.rest.dto.OrderBook;
 import org.oxerr.peatio.rest.dto.Trade;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 
 /**
  * Market data raw service.
  */
 public class PeatioMarketDataServiceRaw extends PeatioBasePollingService {
 
-	public PeatioMarketDataServiceRaw(
-			ExchangeSpecification exchangeSpecification) {
-		super(exchangeSpecification);
+	public PeatioMarketDataServiceRaw(Exchange exchange) {
+		super(exchange);
 	}
 
 	public Map<String, MarketTicker> getTickers() throws PeatioException,

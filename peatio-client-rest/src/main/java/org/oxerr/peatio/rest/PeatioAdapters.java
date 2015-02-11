@@ -4,7 +4,6 @@ import static java.util.stream.Collectors.toList;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -36,7 +35,7 @@ public final class PeatioAdapters {
 	private PeatioAdapters() {
 	}
 
-	public static Collection<CurrencyPair> adaptCurrencyPairs(Market[] markets) {
+	public static List<CurrencyPair> adaptCurrencyPairs(Market[] markets) {
 		return Arrays.stream(markets).map(market -> adaptCurrencyPair(market)).collect(toList());
 	}
 

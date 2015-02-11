@@ -16,9 +16,7 @@ import org.oxerr.peatio.rest.dto.Trade;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import si.mazi.rescu.SynchronizedValueFactory;
-
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
@@ -38,9 +36,8 @@ public class PeatioTradeService extends PeatioTradeServiceRaw implements
 
 	private final Logger log = LoggerFactory.getLogger(PeatioTradeService.class);
 
-	public PeatioTradeService(ExchangeSpecification exchangeSpecification,
-			SynchronizedValueFactory<Long> tonce) {
-		super(exchangeSpecification, tonce);
+	public PeatioTradeService(Exchange exchange) {
+		super(exchange);
 	}
 
 	/**

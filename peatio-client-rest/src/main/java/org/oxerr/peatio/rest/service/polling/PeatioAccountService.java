@@ -5,9 +5,7 @@ import java.math.BigDecimal;
 
 import org.oxerr.peatio.rest.PeatioAdapters;
 
-import si.mazi.rescu.SynchronizedValueFactory;
-
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.exceptions.ExchangeException;
 import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
@@ -20,9 +18,8 @@ import com.xeiam.xchange.service.polling.account.PollingAccountService;
 public class PeatioAccountService extends PeatioAccountServiceRaw implements
 		PollingAccountService {
 
-	public PeatioAccountService(ExchangeSpecification exchangeSpecification,
-			SynchronizedValueFactory<Long> tonce) {
-		super(exchangeSpecification, tonce);
+	public PeatioAccountService(Exchange exchange) {
+		super(exchange);
 	}
 
 	/**

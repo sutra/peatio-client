@@ -5,7 +5,7 @@ import java.util.Date;
 
 import org.oxerr.peatio.rest.PeatioAdapters;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -21,11 +21,8 @@ import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 public class PeatioMarketDataService extends PeatioMarketDataServiceRaw
 		implements PollingMarketDataService {
 
-	/**
-	 * @param exchangeSpecification the exchange specification.
-	 */
-	public PeatioMarketDataService(ExchangeSpecification exchangeSpecification) {
-		super(exchangeSpecification);
+	public PeatioMarketDataService(Exchange exchange) {
+		super(exchange);
 	}
 
 	/**

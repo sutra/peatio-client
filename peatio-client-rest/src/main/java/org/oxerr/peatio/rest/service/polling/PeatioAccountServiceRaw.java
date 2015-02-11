@@ -6,19 +6,15 @@ import org.oxerr.peatio.rest.PeatioException;
 import org.oxerr.peatio.rest.dto.Deposit;
 import org.oxerr.peatio.rest.dto.Member;
 
-import si.mazi.rescu.SynchronizedValueFactory;
-
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 
 /**
  * Account raw service.
  */
 public class PeatioAccountServiceRaw extends PeatioBasePrivatePollingService {
 
-	protected PeatioAccountServiceRaw(
-			ExchangeSpecification exchangeSpecification,
-			SynchronizedValueFactory<Long> tonce) {
-		super(exchangeSpecification, tonce);
+	protected PeatioAccountServiceRaw(Exchange exchange) {
+		super(exchange);
 	}
 
 	public Member getMe() throws PeatioException, IOException {

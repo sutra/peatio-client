@@ -9,21 +9,22 @@ import si.mazi.rescu.SynchronizedValueFactory;
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.utils.nonce.LongTimeNonceFactory;
+import com.xeiam.xchange.utils.nonce.CurrentTimeNonceFactory;
 
 /**
  * Peatio exchange.
  */
 public class PeatioExchange extends BaseExchange implements Exchange {
 
+	private SynchronizedValueFactory<Long> tonce = new CurrentTimeNonceFactory();
+
 	@Override
 	public void applySpecification(ExchangeSpecification exchangeSpecification) {
 		super.applySpecification(exchangeSpecification);
-		this.pollingMarketDataService = new PeatioMarketDataService(exchangeSpecification);
+		this.pollingMarketDataService = new PeatioMarketDataService(this);
 		if (exchangeSpecification.getApiKey() != null) {
-			final SynchronizedValueFactory<Long> tonce = new LongTimeNonceFactory();
-			this.pollingAccountService = new PeatioAccountService(exchangeSpecification, tonce);
-			this.pollingTradeService = new PeatioTradeService(exchangeSpecification, tonce);
+			this.pollingAccountService = new PeatioAccountService(this);
+			this.pollingTradeService = new PeatioTradeService(this);
 		}
 	}
 
@@ -34,6 +35,14 @@ public class PeatioExchange extends BaseExchange implements Exchange {
 	public ExchangeSpecification getDefaultExchangeSpecification() {
 		ExchangeSpecification exchangeSpecification = new ExchangeSpecification(getClass());
 		return exchangeSpecification;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public SynchronizedValueFactory<Long> getNonceFactory() {
+		return tonce;
 	}
 
 }

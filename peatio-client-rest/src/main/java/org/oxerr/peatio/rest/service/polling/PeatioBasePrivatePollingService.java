@@ -4,6 +4,7 @@ import org.oxerr.peatio.rest.service.PeatioDigest;
 
 import si.mazi.rescu.SynchronizedValueFactory;
 
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.service.polling.BasePollingService;
 import com.xeiam.xchange.utils.Assert;
@@ -18,11 +19,10 @@ public class PeatioBasePrivatePollingService extends PeatioBasePollingService
 	protected final String accessKey;
 	protected final PeatioDigest signature;
 
-	protected PeatioBasePrivatePollingService(
-			ExchangeSpecification exchangeSpecification,
-			SynchronizedValueFactory<Long> tonce) {
-		super(exchangeSpecification);
-		this.tonce = tonce;
+	protected PeatioBasePrivatePollingService(Exchange exchange) {
+		super(exchange);
+		this.tonce = exchange.getNonceFactory();
+		ExchangeSpecification exchangeSpecification = exchange.getExchangeSpecification();
 		this.accessKey = exchangeSpecification.getApiKey();
 		String secretKey = exchangeSpecification.getSecretKey();
 

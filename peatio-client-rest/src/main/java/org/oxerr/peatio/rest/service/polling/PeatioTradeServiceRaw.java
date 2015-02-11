@@ -7,19 +7,15 @@ import org.oxerr.peatio.rest.PeatioException;
 import org.oxerr.peatio.rest.dto.Order;
 import org.oxerr.peatio.rest.dto.Trade;
 
-import si.mazi.rescu.SynchronizedValueFactory;
-
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 
 /**
  * Trade raw service.
  */
 public class PeatioTradeServiceRaw extends PeatioBasePrivatePollingService {
 
-	protected PeatioTradeServiceRaw(
-			ExchangeSpecification exchangeSpecification,
-			SynchronizedValueFactory<Long> tonce) {
-		super(exchangeSpecification, tonce);
+	protected PeatioTradeServiceRaw(Exchange exchange) {
+		super(exchange);
 	}
 
 	public Order[] getOrders(String market, String state, Integer limit,
