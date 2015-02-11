@@ -45,6 +45,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<jackson.version>2.5.1</jackson.version>
 	</properties>
 	<modules>
 		<module>peatio-client-rest</module>
@@ -187,7 +188,7 @@
 			<dependency>
 				<groupId>org.glassfish.tyrus</groupId>
 				<artifactId>tyrus-container-grizzly-client</artifactId>
-				<version>1.9</version>
+				<version>1.10</version>
 			</dependency>
 
 			<dependency>
@@ -198,12 +199,12 @@
 			<dependency>
 				<groupId>com.fasterxml.jackson.core</groupId>
 				<artifactId>jackson-core</artifactId>
-				<version>2.5.0</version>
+				<version>${jackson.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.fasterxml.jackson.core</groupId>
 				<artifactId>jackson-databind</artifactId>
-				<version>2.5.0</version>
+				<version>${jackson.version}</version>
 			</dependency>
 			<!--
 				For class com.sun.ws.rs.ext.RuntimeDelegateImpl,
