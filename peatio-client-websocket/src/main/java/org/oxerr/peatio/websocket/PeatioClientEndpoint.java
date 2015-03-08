@@ -1,6 +1,10 @@
 package org.oxerr.peatio.websocket;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 import javax.websocket.ClientEndpoint;
 import javax.websocket.CloseReason;
@@ -16,6 +20,7 @@ import org.oxerr.peatio.rest.service.PeatioDigest;
 import org.oxerr.peatio.websocket.dto.Auth;
 import org.oxerr.peatio.websocket.dto.OrderBook;
 import org.oxerr.peatio.websocket.dto.Trade;
+import org.oxerr.peatio.websocket.event.PeatioDataListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,10 +28,12 @@ import org.slf4j.LoggerFactory;
  * Peatio WebSocket client endpoint.
  */
 @ClientEndpoint(decoders = PeatioDecoder.class, encoders = AuthEncoder.class)
-public class PeatioClientEndpoint {
+public final class PeatioClientEndpoint {
 
 	private final Logger log = LoggerFactory
 			.getLogger(PeatioClientEndpoint.class);
+
+	private final Map<String, Set<PeatioDataListener>> listeners = new HashMap<>();
 
 	private final String accessKey, secretKey;
 
@@ -78,7 +85,16 @@ public class PeatioClientEndpoint {
 		log.trace("error: {}", session, throwable);
 	}
 
-	protected void onChallenge(String challenge, Session session)
+	public synchronized void addDataListener(String type, PeatioDataListener listener) {
+		Set<PeatioDataListener> listeners = this.listeners.get(type);
+		if (listeners == null) {
+			listeners = new HashSet<>();
+			this.listeners.put(type, listeners);
+		}
+		listeners.add(listener);
+	}
+
+	private void onChallenge(String challenge, Session session)
 			throws IOException, EncodeException {
 		String payload = accessKey + challenge;
 		log.debug("payload: {}", payload);
@@ -88,12 +104,14 @@ public class PeatioClientEndpoint {
 		session.getBasicRemote().sendObject(auth);
 	}
 
-	protected void onOrderBook(OrderBook orderBook, Session sesssion) {
+	private void onOrderBook(OrderBook orderBook, Session session) {
 		log.trace("orderbook: {}", orderBook);
+		listeners.get("orderbook").forEach(l -> l.onMessage(session, orderBook));
 	}
 
-	protected void onTrade(Trade trade, Session session) {
+	private void onTrade(Trade trade, Session session) {
 		log.trace("trade: {}", trade);
+		listeners.get("trade").forEach(l -> l.onMessage(session, trade));
 	}
 
 }
